@@ -1,0 +1,7 @@
+# Perfil de DESENVOLVIMENTO LOCAL. Estes valores são públicos (estão no repositório) e NUNCA devem ser usados em produção.
+# É ativado automaticamente por `mvn spring-boot:run` (ver pom.xml) ou com SPRING_PROFILES_ACTIVE=dev.
+# Variáveis de ambiente continuam tendo prioridade sobre estes valores.
+spring:
+  datasource:
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}

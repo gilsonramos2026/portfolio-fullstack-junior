@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: portfolio-api
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/portfolio}
+    username: ${DB_USERNAME:postgres}
+    # Sem valor padrão: defina DB_PASSWORD (o perfil 'dev' traz um valor só para desenvolvimento local).
+    password: ${DB_PASSWORD}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      write-dates-as-timestamps: false
+
+server:
+  port: ${PORT:8080}
+  error:
+    include-message: never
+    include-stacktrace: never
