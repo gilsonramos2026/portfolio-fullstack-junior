@@ -9,4 +9,4 @@ CREATE TABLE skills (
     CONSTRAINT chk_skill_category CHECK (category IN ('BACKEND', 'FRONTEND', 'DATABASE', 'DEVOPS'))
 );
 
-CREATE INDEX idx_skills (category);
+CREATE INDEX idx_skills ON skills (category);
