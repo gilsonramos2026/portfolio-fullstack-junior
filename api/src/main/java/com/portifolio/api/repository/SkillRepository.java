@@ -1,6 +1,7 @@
 package com.portifolio.api.repository;
 
 import com.portifolio.api.entity.Skill;
+import com.portifolio.api.enums.SkillCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -10,7 +11,7 @@ public interface SkillRepository extends JpaRepository<Skill, Long> {
 
     List<Skill> findAllByOrderByCategoryAscLevelDescNameAsc();
 
-    List<Skill> findAllByCategoryOrderByLevelDescNameAsc(String category);
+    List<Skill> findAllByCategoryOrderByLevelDescNameAsc(SkillCategory category);
 
     boolean existsByNameIgnoreCase(String name);
 
