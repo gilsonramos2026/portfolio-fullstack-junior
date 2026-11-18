@@ -1,11 +1,9 @@
 package com.portifolio.api.dto.request;
 
-import com.portifolio.api.enums.SkillCategory;
+import com.portifolio.api.entity.enums.SkillCategory;
 import com.portifolio.api.util.UrlPatterns;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
-
-import java.net.URL;
 
 public record SkillRequest(
 

@@ -1,4 +1,4 @@
-package com.portifolio.api.enums;
+package com.portifolio.api.entity.enums;
 
 public enum SkillCategory {
     BACKEND,

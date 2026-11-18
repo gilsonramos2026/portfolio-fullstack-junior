@@ -3,7 +3,7 @@ package com.portifolio.api.service.impl;
 import com.portifolio.api.dto.request.SkillRequest;
 import com.portifolio.api.dto.response.SkillResponse;
 import com.portifolio.api.entity.Skill;
-import com.portifolio.api.enums.SkillCategory;
+import com.portifolio.api.entity.enums.SkillCategory;
 import com.portifolio.api.exception.DuplicateResourceException;
 import com.portifolio.api.exception.ResourceNotFoundException;
 import com.portifolio.api.mapper.SkillMapper;

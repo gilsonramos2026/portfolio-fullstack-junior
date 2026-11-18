@@ -1,7 +1,7 @@
 package com.portifolio.api.repository;
 
 import com.portifolio.api.entity.Skill;
-import com.portifolio.api.enums.SkillCategory;
+import com.portifolio.api.entity.enums.SkillCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

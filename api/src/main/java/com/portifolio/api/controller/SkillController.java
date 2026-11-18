@@ -2,7 +2,7 @@ package com.portifolio.api.controller;
 
 import com.portifolio.api.dto.request.SkillRequest;
 import com.portifolio.api.dto.response.SkillResponse;
-import com.portifolio.api.enums.SkillCategory;
+import com.portifolio.api.entity.enums.SkillCategory;
 import com.portifolio.api.service.SkillService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

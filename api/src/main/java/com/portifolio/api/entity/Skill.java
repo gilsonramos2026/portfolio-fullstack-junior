@@ -1,6 +1,6 @@
 package com.portifolio.api.entity;
 
-import com.portifolio.api.enums.SkillCategory;
+import com.portifolio.api.entity.enums.SkillCategory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
