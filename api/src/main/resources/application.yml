@@ -4,7 +4,7 @@ spring:
   datasource:
     url: ${DB_URL:jdbc:postgresql://localhost:5432/portfolio}
     username: ${DB_USERNAME:postgres}
-    # Sem valor padr�o: defina DB_PASSWORD (o perfil 'dev' traz um valor s� para desenvolvimento local).
+    # Sem valor padr�o: defina DB_PASSWORD (o perfil 'dev' traz um valor s� para desenvolvimento local).
     password: ${DB_PASSWORD}
   jpa:
     open-in-view: false
@@ -27,3 +27,18 @@ server:
   error:
     include-message: never
     include-stacktrace: never
+
+app:
+  security:
+    # Segredo HS256 em Base64 (mínimo 256 bits). Obrigatório: gere com `openssl rand -base64 64 | tr -d '\n'`.
+    jwt-secret: ${JWT_SECRET}
+    jwt-expiration-minutes: ${JWT_EXPIRATION_MINUTES:120}
+    allowed-origins: ${ALLOWED_ORIGINS:http://localhost:3000}
+  proxy:
+    # Proxies em que a API confia para ler X-Forwarded-For (IPs ou CIDR, separados por vírgula).
+    # Padrão: loopback e redes privadas (o servidor Next.js dentro do Docker/VPC). Vazio = não confiar em ninguém.
+    trusted-proxies: "${TRUSTED_PROXIES:127.0.0.0/8,::1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,fc00::/7}"
+  admin:
+    username: ${ADMIN_USERNAME:admin}
+    # Senha inicial, usada apenas na criação do admin (primeiro boot). Obrigatória, mínimo de 12 caracteres.
+    password: ${ADMIN_PASSWORD}
