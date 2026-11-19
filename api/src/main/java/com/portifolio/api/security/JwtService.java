@@ -31,7 +31,15 @@ public class JwtService {
     private final Duration expiration;
 
     public JwtService(SecurityProperties properties) {
-        this.signingKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(properties.jwtSecret()));
+        String secret = properties.jwtSecret();
+        if (secret == null || secret.isBlank()) {
+            throw new IllegalArgumentException("A propriedade jwtSecret não pode ser vazia");
+        }
+        if (properties.jwtExpirationMinutes() <= 0) {
+            throw new IllegalArgumentException("A propriedade jwtExpirationMinutes deve ser maior que zero");
+        }
+
+        this.signingKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
         this.expiration = Duration.ofMinutes(properties.jwtExpirationMinutes());
     }
 

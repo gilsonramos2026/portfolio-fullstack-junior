@@ -3,7 +3,7 @@ package com.portifolio.api.service.impl;
 import com.portifolio.api.dto.request.EducationRequest;
 import com.portifolio.api.entity.Education;
 import com.portifolio.api.entity.enums.EducationType;
-import com.portifolio.api.exception.BussinesRuleEducation;
+import com.portifolio.api.exception.BusinessRuleException;
 import com.portifolio.api.mapper.EducationMapper;
 import com.portifolio.api.repository.EducationRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,7 +48,7 @@ class EducationServiceImplTest {
         );
 
         assertThatThrownBy(() -> service.create(request))
-                .isInstanceOf(BussinesRuleEducation.class);
+                .isInstanceOf(BusinessRuleException.class);
 
         verify(repository, never()).save(any());
     }

@@ -1,16 +1,20 @@
 package com.portifolio.api.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.Instant;
 
 @Entity
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "admin_users")
@@ -26,7 +30,6 @@ public class AdminUser {
     @Column(name = "password_hash", nullable = false, length = 100)
     private String passwordHash;
 
-    // Versão dos tokens JWT: incrementada ao trocar a senha, o que invalida todos os tokens já emitidos.
     @Column(name = "token_version", nullable = false)
     private long tokenVersion;
 
@@ -46,6 +49,8 @@ public class AdminUser {
 
     @PrePersist
     void onCreate() {
-        this.createdAt = Instant.now();
+        if (this.createdAt == null) {
+            this.createdAt = Instant.now();
+        }
     }
 }

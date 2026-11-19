@@ -3,8 +3,7 @@ package com.portifolio.api.service.impl;
 import com.portifolio.api.dto.request.EducationRequest;
 import com.portifolio.api.dto.response.EducationResponse;
 import com.portifolio.api.entity.Education;
-import com.portifolio.api.entity.Project;
-import com.portifolio.api.exception.BussinesRuleEducation;
+import com.portifolio.api.exception.BusinessRuleException;
 import com.portifolio.api.exception.ResourceNotFoundException;
 import com.portifolio.api.mapper.EducationMapper;
 import com.portifolio.api.repository.EducationRepository;
@@ -63,7 +62,7 @@ public class EducationServiceImpl implements EducationService {
 
     private void validateDates(EducationRequest request) {
         if (request.endDate() != null && request.endDate().isBefore(request.startDate())) {
-           throw new BussinesRuleEducation("A data de término não pode ser inferior a data de início");
+           throw new BusinessRuleException("A data de término não pode ser inferior a data de início");
         }
     }
 }

@@ -6,8 +6,8 @@ spring:
     username: ${DB_USERNAME:postgres}
     password: ${DB_PASSWORD:postgres}
 
-  app:
-    security:
-      jwt-secret: ${JWT_SECRET:a7jBsib8VglD44BZvbyc7EAiUkIJNoIEvxHqtStpWzR2w9q+r/ltkMYqjsTEkKTxndS+Z0boyCfd6E6WXFj8iA==}
-    admin:
-      password: ${ADMIN_PASSWORD:admin123}
+app:
+  security:
+    jwt-secret: ${JWT_SECRET:a7jBsib8VglD44BZvbyc7EAiUkIJNoIEvxHqtStpWzR2w9q+r/ltkMYqjsTEkKTxndS+Z0boyCfd6E6WXFj8iA==}
+  admin:
+    password: ${ADMIN_PASSWORD:admin123}

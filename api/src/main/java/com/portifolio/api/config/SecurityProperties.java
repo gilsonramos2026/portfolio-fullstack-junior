@@ -18,4 +18,12 @@ public record SecurityProperties(
 
         List<String> allowedOrigins
 ) {
+    public SecurityProperties {
+        allowedOrigins = allowedOrigins == null
+                ? List.of()
+                : allowedOrigins.stream()
+                .map(String::trim)
+                .filter(s -> !s.isBlank())
+                .toList();
+    }
 }
