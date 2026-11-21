@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 33% 98%;
+    --foreground: 224 30% 12%;
+    --card: 0 0% 100%;
+    --muted: 40 20% 94%;
+    --muted-foreground: 224 10% 38%;
+    --border: 40 14% 87%;
+    /* Borda de campos de formulário: contraste ≥ 3:1 contra o fundo (WCAG 1.4.11). */
+    --input: 40 5% 56%;
+    --primary: 243 75% 56%;
+    --primary-foreground: 0 0% 100%;
+    --accent: 168 76% 24%;
+    --danger: 0 72% 51%;
+  }
+
+  .dark {
+    --background: 226 28% 8%;
+    --foreground: 40 20% 94%;
+    --card: 226 24% 11%;
+    --muted: 226 20% 15%;
+    --muted-foreground: 226 10% 68%;
+    --border: 226 18% 20%;
+    --input: 226 10% 46%;
+    --primary: 245 90% 76%;
+    --primary-foreground: 226 28% 8%;
+    --accent: 168 70% 50%;
+    --danger: 0 84% 66%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 4.5rem;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+    font-size: 1rem;
+    line-height: 1.65;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Títulos: família de exibição com tracking apertado e entrelinha curta. */
+  h1,
+  h2,
+  h3 {
+    @apply font-display;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    @apply bg-primary/25;
+  }
+
+  dialog::backdrop {
+    background: hsl(226 40% 4% / 0.6);
+    backdrop-filter: blur(2px);
+  }
+}
+
+@layer utilities {
+  /* Troca de tema suave: a classe é aplicada por ThemeToggle só durante a troca. */
+  .theme-switching,
+  .theme-switching *,
+  .theme-switching *::before,
+  .theme-switching *::after {
+    transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, fill 0.25s ease !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-up {
+      animation: none;
+    }
+    .theme-switching,
+    .theme-switching * {
+      transition: none !important;
+    }
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
