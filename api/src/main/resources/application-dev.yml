@@ -3,11 +3,19 @@
 # Variáveis de ambiente continuam tendo prioridade sobre estes valores.
 spring:
   datasource:
-    username: ${DB_USERNAME:postgres}
     password: ${DB_PASSWORD:postgres}
+  flyway:
+    # Além do schema, carrega os dados de exemplo (db/dev) somente em desenvolvimento.
+    locations: classpath:db/migration,classpath:db/dev
 
 app:
   security:
-    jwt-secret: ${JWT_SECRET:a7jBsib8VglD44BZvbyc7EAiUkIJNoIEvxHqtStpWzR2w9q+r/ltkMYqjsTEkKTxndS+Z0boyCfd6E6WXFj8iA==}
+    jwt-secret: ${JWT_SECRET:a7jBsib8VglD44BZvbyc7EAiUkIJNoIEvxHqtStpWzR2w9q+r/ltkMYqjsTEkKTxndS+ZOboyCfd6E6WXFj8iA==}
   admin:
     password: ${ADMIN_PASSWORD:AdminDev@2026!}
+
+springdoc:
+  swagger-ui:
+    enabled: ${SWAGGER_ENABLED:true}
+  api-docs:
+    enabled: ${SWAGGER_ENABLED:true}
