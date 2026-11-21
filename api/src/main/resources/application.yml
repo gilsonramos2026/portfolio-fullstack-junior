@@ -5,6 +5,10 @@ spring:
     url: ${DB_URL:jdbc:postgresql://localhost:5432/portfolio}
     username: ${DB_USERNAME:postgres}
     password: ${DB_PASSWORD:postgres}
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 6MB
   jpa:
     open-in-view: false
     hibernate:
@@ -34,6 +38,9 @@ app:
     allowed-origins: ${ALLOWED_ORIGINS:http://localhost:3000}
   proxy:
     trusted-proxies: "${TRUSTED_PROXIES:127.0.0.0/8,::1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,fc00::/7}"
+  upload:
+    dir: ${UPLOAD_DIR:./uploads}
+    max-size-bytes: 5242880
   admin:
     username: ${ADMIN_USERNAME:admin}
     password: ${ADMIN_PASSWORD:AdminDev@2026!}
