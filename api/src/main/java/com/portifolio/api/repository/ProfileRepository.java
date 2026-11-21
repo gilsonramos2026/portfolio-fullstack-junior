@@ -13,5 +13,5 @@ public interface ProfileRepository extends JpaRepository<Profile, Long> {
 
     /** Fotos de perfil em uso (para detectar uploads órfãos) */
     @Query("select p.avatarUrl from Profile p where p.avatarUrl is not null")
-    List<String> findAllAvatarUrl();
+    List<String> findAllAvatarUrls();
 }

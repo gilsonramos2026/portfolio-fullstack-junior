@@ -1,6 +1,7 @@
 package com.portifolio.api.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
@@ -31,6 +33,11 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.NOT_FOUND, ex.getMessage(), request, List.of());
     }
 
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ApiError> handleNoResource(NoResourceFoundException ex, HttpServletRequest request) {
+        return build(HttpStatus.NOT_FOUND, "Recurso não encontrado", request, List.of());
+    }
+
     @ExceptionHandler({DuplicateResourceException.class, DataIntegrityViolationException.class})
     public ResponseEntity<ApiError> handleConflict(Exception ex, HttpServletRequest request) {
         String message = ex instanceof DuplicateResourceException
@@ -44,9 +51,9 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage(), request, List.of());
     }
 
-    @ExceptionHandler(NoResourceFoundException.class)
-    public ResponseEntity<ApiError> handleNoResource(NoResourceFoundException ex, HttpServletRequest request) {
-        return build(HttpStatus.NOT_FOUND, "Recurso não encontrado", request, List.of());
+    @ExceptionHandler(TooManyRequestsException.class)
+    public ResponseEntity<ApiError> handleTooManyRequests(TooManyRequestsException ex, HttpServletRequest request) {
+        return build(HttpStatus.TOO_MANY_REQUESTS, ex.getMessage(), request, List.of());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -57,10 +64,23 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.BAD_REQUEST, "Dados de entrada inválidos", request, violations);
     }
 
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ApiError> handleConstraintViolation(ConstraintViolationException ex, HttpServletRequest request) {
+        List<ApiError.FieldViolation> violations = ex.getConstraintViolations().stream()
+                .map(v -> new ApiError.FieldViolation(v.getPropertyPath().toString(), v.getMessage()))
+                .toList();
+        return build(HttpStatus.BAD_REQUEST, "Dados de entrada inválidos", request, violations);
+    }
+
     @ExceptionHandler({HttpMessageNotReadableException.class, MethodArgumentTypeMismatchException.class,
             MissingServletRequestParameterException.class, MissingServletRequestPartException.class})
     public ResponseEntity<ApiError> handleMalformed(Exception ex, HttpServletRequest request) {
         return build(HttpStatus.BAD_REQUEST, "Requisição malformada", request, List.of());
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<ApiError> handleUploadTooLarge(MaxUploadSizeExceededException ex, HttpServletRequest request) {
+        return build(HttpStatus.PAYLOAD_TOO_LARGE, "A imagem deve ter no máximo 5 MB", request, List.of());
     }
 
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
@@ -71,11 +91,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<ApiError> handleMethodNotAllowed(HttpRequestMethodNotSupportedException ex, HttpServletRequest request) {
         return build(HttpStatus.METHOD_NOT_ALLOWED, "Método HTTP não suportado", request, List.of());
-    }
-
-    @ExceptionHandler(TooManyRequestsException.class)
-    public ResponseEntity<ApiError> handleTooManyRequests(TooManyRequestsException ex, HttpServletRequest request) {
-        return build(HttpStatus.TOO_MANY_REQUESTS, ex.getMessage(), request, List.of());
     }
 
     @ExceptionHandler(AuthenticationException.class)
@@ -94,7 +109,8 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno do servidor", request, List.of());
     }
 
-    private ResponseEntity<ApiError> build(HttpStatus status, String message, HttpServletRequest request, List<ApiError.FieldViolation> violations) {
+    private ResponseEntity<ApiError> build(HttpStatus status, String message, HttpServletRequest request,
+                                           List<ApiError.FieldViolation> violations) {
         ApiError body = ApiError.of(status.value(), status.getReasonPhrase(), message, request.getRequestURI(), violations);
         return ResponseEntity.status(status).body(body);
     }
