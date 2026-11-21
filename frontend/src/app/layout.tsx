@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
-import { getProfile } from "@/lib/api-server";
 import "@fontsource-variable/bricolage-grotesque/opsz.css";
 import "@fontsource-variable/instrument-sans/wght.css";
 import { Providers } from "@/components/layout/Providers";
 import { SITE_URL } from "@/lib/site";
+import { getProfile } from "@/lib/api-server";
 
 export async function generateMetadata(): Promise<Metadata> {
   const profile = await getProfile();
